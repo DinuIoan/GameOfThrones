@@ -15,11 +15,12 @@ public class Question {
     private String answear2;
     private String answear3;
     private String correct_answear;
-    private Integer player_state_id;
     private Integer points;
+    private Integer player_state_id;
+
 
     public Question(Integer id, String text, String type, String answear1,
-                    String answear2, String answear3, String correct_answear, Integer player_state_id, Integer points) {
+                    String answear2, String answear3, String correct_answear, Integer points, Integer player_state_id) {
         this.id = id;
         this.text = text;
         this.type = type;

@@ -81,34 +81,34 @@ public class InitializeDatabase {
         String answear3 = "";
         String correct_answear = "";
         int points = 0;
-        if (parts[0].equals("gi")) {
+        if (parts[0].contains("gi")) {
             points = GENERAL_INFO_POINTS;
             type = GENERAL_INFO;
-        } else if (parts[0].equals("1")) {
+        } else if (parts[0].contains("1")) {
             points = SEASON1_POINTS;
             type = SEASON1;
-        } else if (parts[0].equals("2")) {
+        } else if (parts[0].contains("2")) {
             points = SEASON2_POINTS;
             type = SEASON2;
-        } else if (parts[0].equals("3")) {
+        } else if (parts[0].contains("3")) {
             points = SEASON3_POINTS;
             type = SEASON3;
-        } else if (parts[0].equals("4")) {
+        } else if (parts[0].contains("4")) {
             points = SEASON4_POINTS;
             type = SEASON4;
-        } else if (parts[0].equals("5")) {
+        } else if (parts[0].contains("5")) {
             points = SEASON5_POINTS;
             type = SEASON5;
-        } else if (parts[0].equals("6")) {
+        } else if (parts[0].contains("6")) {
             points = SEASON6_POINTS;
             type = SEASON6;
-        } else if (parts[0].equals("7")) {
+        } else if (parts[0].contains("7")) {
             points = SEASON7_POINTS;
             type = SEASON7;
-        } else if (parts[0].equals("gl")) {
+        } else if (parts[0].contains("gl")) {
             points = GLOBAL_POINTS;
             type = GLOBAL;
-        } else if (parts[0].equals("w")) {
+        } else if (parts[0].contains("w")) {
             points = WHO_SAID_POINTS;
             type = WHO_SAID;
         }
@@ -119,7 +119,7 @@ public class InitializeDatabase {
         System.out.println(text);
         answear3 = parts[5];
         Question question = new Question(0, text, type, answear1, answear2,
-                answear3, correct_answear, 0, points);
+                answear3, correct_answear, points, 0);
         return question;
     }
 }

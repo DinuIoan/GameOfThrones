@@ -136,6 +136,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void endGame() {
+        countDownTimer.cancel();
         //TODO NUMARUL DE JOCURI DISPONIBILE
         //Update lives in database and DatabaseData;
         DatabaseData.getGame().setGames_number(DatabaseData.getGame().getGames_number() - 1);
@@ -177,7 +178,7 @@ public class GameActivity extends AppCompatActivity {
             answear1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (answear1.getText().equals(correctAnswear)) {
+                    if (answear1.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         reloadGame();
                     } else {
@@ -189,7 +190,7 @@ public class GameActivity extends AppCompatActivity {
             answear2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (answear2.getText().equals(correctAnswear)) {
+                    if (answear2.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         reloadGame();
                     } else {
@@ -201,7 +202,7 @@ public class GameActivity extends AppCompatActivity {
             answear3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (answear3.getText().equals(correctAnswear)) {
+                    if (answear3.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         reloadGame();
                     } else {
@@ -213,7 +214,7 @@ public class GameActivity extends AppCompatActivity {
             answear4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (answear3.getText().equals(correctAnswear)) {
+                    if (answear4.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         reloadGame();
                     } else {
