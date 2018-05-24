@@ -132,6 +132,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     + game.getPlayer_state_id() +
                 "')";
         database.execSQL(ADD_GAME);
+        database.close();
     }
 
     public void addQuestion(Question question) {
