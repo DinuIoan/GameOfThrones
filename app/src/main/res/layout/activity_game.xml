@@ -34,17 +34,16 @@
         android:layout_marginLeft="9dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="9dp"
-        android:layout_marginTop="72dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraint_layout_answear"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_button">
+        app:layout_constraintTop_toBottomOf="@+id/constraint_layout_timer">
 
         <TextView
             android:id="@+id/question_text_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="2dp"
             android:layout_marginEnd="2dp"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
@@ -68,12 +67,10 @@
         android:id="@+id/constraint_layout_answear"
         android:layout_width="368dp"
         android:layout_height="250dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="4:1"
@@ -99,6 +96,7 @@
             android:textSize="15sp"
             app:layout_constraintBottom_toTopOf="@+id/button_answear2"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,6 +115,7 @@
             android:textColor="@color/up_color"
             app:layout_constraintBottom_toTopOf="@+id/button_answear3"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_answear1" />
 
@@ -135,6 +134,7 @@
             android:textColor="@color/up_color"
             app:layout_constraintBottom_toTopOf="@+id/button_answear4"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_answear2" />
 
@@ -153,6 +153,7 @@
             android:textColor="@color/up_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_answear3" />
 
@@ -163,17 +164,16 @@
         android:id="@+id/constraint_layout_timer"
         android:layout_width="360dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraint_layout_question"
+        android:layout_marginTop="90dp"
+        app:layout_constraintBottom_toTopOf="@+id/back_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/timer"
