@@ -9,6 +9,7 @@ import android.widget.Button;
 import com.facebook.stetho.Stetho;
 import com.got.bestapps.gameofthrones.database.DatabaseHandler;
 import com.got.bestapps.gameofthrones.database.InitializeDatabase;
+import com.got.bestapps.gameofthrones.game.CountdownActivity;
 import com.got.bestapps.gameofthrones.game.GameActivity;
 import com.got.bestapps.gameofthrones.rules.RulesActivity;
 import com.got.bestapps.gameofthrones.stats.StatsActivity;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CountdownActivity.class);
                 startActivity(intent);
             }
         });

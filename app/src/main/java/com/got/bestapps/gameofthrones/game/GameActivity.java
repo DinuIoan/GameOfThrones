@@ -1,8 +1,12 @@
 package com.got.bestapps.gameofthrones.game;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -71,8 +75,6 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         databaseHandler = new DatabaseHandler(this);
 
-        initData();
-
         back_button = (Button) findViewById(R.id.back_button);
         answear1 = (Button) findViewById(R.id.button_answear1);
         answear2 = (Button) findViewById(R.id.button_answear2);
@@ -92,6 +94,16 @@ public class GameActivity extends AppCompatActivity {
         startGame();
     }
 
+
+    public void startGame() {
+        initData();
+        loadQuestion();
+        time = 20;
+        countDownTimer.start();
+        //startTimer();
+    }
+
+
     public void initData() {
         questions = DatabaseData.getQuestions();
         Collections.shuffle(questions);
@@ -105,16 +117,9 @@ public class GameActivity extends AppCompatActivity {
                 timer.setText(remaining);
             }
             public void onFinish() {
-                looseLife();
+                looseLife(null);
             }
         };
-    }
-
-    public void startGame() {
-        loadQuestion();
-        time = 20;
-        countDownTimer.start();
-        //startTimer();
     }
 
     public void reloadGame() {
@@ -126,35 +131,6 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    public void looseLife() {
-        if (lifes > 0) {
-            lifes -= 1;
-            reloadGame();
-        } else {
-            endGame();
-        }
-    }
-
-    public void endGame() {
-        countDownTimer.cancel();
-        //TODO NUMARUL DE JOCURI DISPONIBILE
-        //Update lives in database and DatabaseData;
-        DatabaseData.getGame().setGames_number(DatabaseData.getGame().getGames_number() - 1);
-        databaseHandler.modifyGameObject(DatabaseData.getGame().getId(), DatabaseData.getGame().getGames_number(), DatabaseData.getGame().getPlayer_state_id());
-
-        //Update rankings with new score in database and databaseData
-        Rankings ranking = new Rankings(0, points, 0);
-        List<Rankings> rankings = DatabaseData.getRankings();
-        rankings.add(ranking);
-        databaseHandler.updateRankings(rankings);
-        DatabaseData.setRankings(databaseHandler.getAllRankings());
-
-        //TODO what should happen if game ends
-        Intent intent = new Intent(getApplicationContext(), GameOverActivity.class);
-        intent.putExtra("score", points);
-        startActivity(intent);
-    }
-
     public void loadQuestion() {
         if (questions.size() != 0) {
             Random random = new Random();
@@ -162,7 +138,7 @@ public class GameActivity extends AppCompatActivity {
             int randomQuestion = random.nextInt(maximum);
             final Question rQuestion = questions.remove(randomQuestion);
             questionsAnsweared.add(rQuestion);
-            question.setText(rQuestion.getText());
+            question.setText("~" + rQuestion.getType() + "~\n" + rQuestion.getText());
             List<String> answears = new ArrayList<>();
             answears.add(rQuestion.getAnswear1());
             answears.add(rQuestion.getAnswear2());
@@ -180,9 +156,10 @@ public class GameActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (answear1.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
+                        makeCorrectAnim(answear1);
                         reloadGame();
                     } else {
-                        looseLife();
+                        looseLife(answear1);
                     }
                 }
             });
@@ -192,9 +169,10 @@ public class GameActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (answear2.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
+                        makeCorrectAnim(answear2);
                         reloadGame();
                     } else {
-                        looseLife();
+                        looseLife(answear2);
                     }
                 }
             });
@@ -204,9 +182,10 @@ public class GameActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (answear3.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
+                        makeCorrectAnim(answear3);
                         reloadGame();
                     } else {
-                        looseLife();
+                        looseLife(answear3);
                     }
                 }
             });
@@ -216,15 +195,87 @@ public class GameActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (answear4.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
+                        makeCorrectAnim(answear4);
                         reloadGame();
                     } else {
-                        looseLife();
+                        looseLife(answear4);
                     }
                 }
             });
         } else {
             //TODO NO MORE QUESTIONS, WHO GET'S HERE IS THE BOSS
         }
+    }
+
+
+    public void looseLife(Button answear) {
+        if (answear != null ){
+            makeWrongAnim(answear);
+        }
+        if (lifes > 0) {
+            lifes -= 1;
+            reloadGame();
+        } else {
+            endGame();
+        }
+    }
+
+
+    public void endGame() {
+        countDownTimer.cancel();
+        //TODO NUMARUL DE JOCURI DISPONIBILE
+        //Update lives in database and DatabaseData;
+        DatabaseData.getGame().setGames_number(DatabaseData.getGame().getGames_number() - 1);
+        databaseHandler.modifyGameObject(DatabaseData.getGame().getId(), DatabaseData.getGame().getGames_number(), DatabaseData.getGame().getPlayer_state_id());
+
+        //Update rankings with new score in database and databaseData
+        Rankings ranking = new Rankings(0, points, 0);
+        List<Rankings> rankings = DatabaseData.getRankings();
+        rankings.add(ranking);
+        databaseHandler.updateRankings(rankings);
+        DatabaseData.setRankings(databaseHandler.getAllRankings());
+
+        //TODO what should happen if game ends
+        makeAlertDialog();
+    }
+
+    public void makeWrongAnim(Button answear) {
+        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.wrong_answear_style));
+        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.button_play_style));
+        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.wrong_answear_style));
+        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.button_play_style));
+    }
+
+    public void makeCorrectAnim(Button answear) {
+        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.correct_answear_style));
+        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.button_play_style));
+        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.correct_answear_style));
+        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.button_play_style));
+    }
+
+    public void makeAlertDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(GameActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(GameActivity.this);
+        }
+        builder.setTitle("Game over")
+                .setMessage("Great! You scored: " + points + ".\nDo you want to try to do better?")
+                .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent countdownActivityIntent = new Intent(GameActivity.this, CountdownActivity.class);
+                        startActivity(countdownActivityIntent);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                       Intent mainActivityIntent = new Intent(GameActivity.this, MainActivity.class);
+                       startActivity(mainActivityIntent);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     @Override

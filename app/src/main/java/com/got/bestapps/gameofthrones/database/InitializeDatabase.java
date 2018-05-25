@@ -22,7 +22,7 @@ public class InitializeDatabase {
     private static final String FILEPATH = "input.txt";
 
     private static final String GENERAL_INFO = "GENERAL_INFO";
-    private static final int GENERAL_INFO_POINTS = 10;
+    private static final int GENERAL_INFO_POINTS = 12;
 
     private static final String SEASON1 = "SEASON1";
     private static final int SEASON1_POINTS = 20;
