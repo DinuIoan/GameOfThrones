@@ -1,10 +1,12 @@
 package com.got.bestapps.gameofthrones.stats;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.got.bestapps.gameofthrones.MainActivity;
 import com.got.bestapps.gameofthrones.R;
 import com.got.bestapps.gameofthrones.database.DatabaseData;
 import com.got.bestapps.gameofthrones.model.Rankings;
@@ -28,6 +30,13 @@ public class StatsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerViewAdapter = new RecyclerViewAdapter(rankingsList);
         recyclerView.setAdapter(recyclerViewAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(StatsActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

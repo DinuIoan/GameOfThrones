@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.got.bestapps.gameofthrones.MainActivity;
 import com.got.bestapps.gameofthrones.R;
 
 public class CountdownActivity extends AppCompatActivity {
@@ -29,5 +30,13 @@ public class CountdownActivity extends AppCompatActivity {
             }
         };
         countDownTimer.start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        countDownTimer.cancel();
+        Intent intent = new Intent(CountdownActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

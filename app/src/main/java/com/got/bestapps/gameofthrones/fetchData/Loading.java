@@ -40,41 +40,22 @@ public class Loading extends AsyncTask<String, Integer, Integer> {
         }
 
         if (DatabaseData.getQuestions() == null) {
-            DatabaseData.setGame(db.getAllGames().get(0));
-            DatabaseData.setPlayerState(db.getAllPlayerState().get(0));
             DatabaseData.setQuestions(db.getAllQuestions());
+        }
+        if (DatabaseData.getGame() == null) {
+            DatabaseData.setGame(db.getAllGames().get(0));
+        }
+        if (DatabaseData.getPlayerState() == null) {
+            DatabaseData.setPlayerState(db.getAllPlayerState().get(0));
+        }
+        if (DatabaseData.getRankings() == null) {
             DatabaseData.setRankings(db.getAllRankings());
         }
 
-        Log.i("Tutorial", "Starting task with url: " + params[0]);
-        if (resourcesDontAlreadyExist()) {
-            downloadResources();
-        }
         return 1234;
 
     }
 
-    private boolean resourcesDontAlreadyExist() {
-        if (DatabaseData.getQuestions() == null) {
-            return true;
-        }
-        return false;
-    }
-
-    private void downloadResources() {
-
-        int count = 50;
-        for (int i = 0; i < count; i++) {
-
-            int progress = (int) ((i / (float) count) * 100);
-            publishProgress(progress);
-
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ignore) {
-            }
-        }
-    }
 
     @Override
     protected void onProgressUpdate(Integer... values) {

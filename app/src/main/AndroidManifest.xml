@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".fetchData.FetchData">
+        <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,7 @@
         <activity android:name=".game.GameOverActivity" />
         <activity android:name=".stats.StatsActivity" />
         <activity android:name=".rules.RulesActivity" />
-        <activity android:name=".game.CountdownActivity"/>
+        <activity android:name=".game.CountdownActivity" />
     </application>
 
 </manifest>

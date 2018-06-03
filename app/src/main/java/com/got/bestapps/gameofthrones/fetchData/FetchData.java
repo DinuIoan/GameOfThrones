@@ -14,7 +14,7 @@ public class FetchData extends Activity implements Loading.LoadingTaskFinishedLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_fetch);
+        setContentView(R.layout.activity_splash);
 
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar_horizontal);
         new Loading(progressBar, this, FetchData.this).execute("");

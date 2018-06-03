@@ -52,25 +52,32 @@ public class InitializeDatabase {
     private static final int GLOBAL_POINTS = 12;
 
     public static void initializeDatabase(DatabaseHandler databaseHandler, Context context) {
+
         File inputQuestions = new File(FILEPATH);
         final Resources resources = context.getResources();
         InputStream inputStream = resources.openRawResource(R.raw.input);
         PlayerState playerState = new PlayerState(0, "player1");
-        databaseHandler.addPlayerState(playerState);
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split("/");
-                Question question = makeQuestion(parts);
-                databaseHandler.addQuestion(question);
+        if (databaseHandler.getAllPlayerState().size() == 0) {
+            databaseHandler.addPlayerState(playerState);
+        }
+        if (databaseHandler.getAllQuestions().size() == 0) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split("/");
+                    Question question = makeQuestion(parts);
+                    databaseHandler.addQuestion(question);
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         Game game = new Game(0, 5, playerState.getId());
-        databaseHandler.addGame(game);
+        if (databaseHandler.getAllGames().size() == 0) {
+            databaseHandler.addGame(game);
+        }
     }
 
     public static Question makeQuestion(String[] parts) {

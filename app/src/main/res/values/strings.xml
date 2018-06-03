@@ -3,11 +3,11 @@
     <string name="retry">RETRY</string>
     <string name="cancel">CANCEL</string>
     <string name="line1">"1. Game starts when you hit the play button."</string>
-    <string name="line2">"1. Only 20 sec to answear."</string>
-    <string name="line3">"2. You can choose wrong only 3 times."</string>
-    <string name="line4">"3. You have only 5 games available."</string>
-    <string name="line5">"4. Games are charging every hour with one game per hour."</string>
-    <string name="line6">"5. Every question has different points according to the type of the question:"</string>
+    <string name="line2">"2. Only 20 sec to answear."</string>
+    <string name="line3">"3. You can choose wrong only 3 times."</string>
+    <string name="line4">"4. You have only 5 games available."</string>
+    <string name="line5">"5. Games are charging every hour with one game per hour."</string>
+    <string name="line6">"6. Every question has different points according to the type of the question:"</string>
     <string name="line7">"- Season 1: 20p"</string>
     <string name="line8">"- Season 2: 18p"</string>
     <string name="line9">"- Season 3: 16p"</string>

@@ -1,15 +1,25 @@
 package com.got.bestapps.gameofthrones.game;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.renderscript.Sampler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.TransitionManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
@@ -37,6 +47,10 @@ public class GameActivity extends AppCompatActivity {
     private Button answear2;
     private Button answear3;
     private Button answear4;
+    private AnimationDrawable rocketAnimation;
+    private ImageView heart1;
+    private ImageView heart2;
+    private ImageView heart3;
     private TextView question;
     private TextView timer;
     private List<Question> questions;
@@ -82,7 +96,9 @@ public class GameActivity extends AppCompatActivity {
         answear4 = (Button) findViewById(R.id.button_answear4);
         question = (TextView) findViewById(R.id.question_text_view);
         timer = (TextView) findViewById(R.id.timer);
-
+        heart1 = (ImageView) findViewById(R.id.heart1);
+        heart2 = (ImageView) findViewById(R.id.heart2);
+        heart3 = (ImageView) findViewById(R.id.heart3);
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,12 +107,15 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         //TODO toast message with small instructions before starting the game
+        initData();
         startGame();
     }
 
 
     public void startGame() {
-        initData();
+        heart1.setVisibility(View.VISIBLE);
+        heart2.setVisibility(View.VISIBLE);
+        heart3.setVisibility(View.VISIBLE);
         loadQuestion();
         time = 20;
         countDownTimer.start();
@@ -157,7 +176,14 @@ public class GameActivity extends AppCompatActivity {
                     if (answear1.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         makeCorrectAnim(answear1);
-                        reloadGame();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                reloadGame();
+                            }
+                        }, 1600);
+//                        reloadGame();
                     } else {
                         looseLife(answear1);
                     }
@@ -170,7 +196,14 @@ public class GameActivity extends AppCompatActivity {
                     if (answear2.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         makeCorrectAnim(answear2);
-                        reloadGame();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                reloadGame();
+                            }
+                        }, 1600);
+//                        reloadGame();
                     } else {
                         looseLife(answear2);
                     }
@@ -183,7 +216,14 @@ public class GameActivity extends AppCompatActivity {
                     if (answear3.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         makeCorrectAnim(answear3);
-                        reloadGame();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                reloadGame();
+                            }
+                        }, 1600);
+//                        reloadGame();
                     } else {
                         looseLife(answear3);
                     }
@@ -196,7 +236,14 @@ public class GameActivity extends AppCompatActivity {
                     if (answear4.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         makeCorrectAnim(answear4);
-                        reloadGame();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                reloadGame();
+                            }
+                        }, 1600);
+//                        reloadGame();
                     } else {
                         looseLife(answear4);
                     }
@@ -208,18 +255,37 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    public void looseLife(Button answear) {
-        if (answear != null ){
-            makeWrongAnim(answear);
-        }
-        if (lifes > 0) {
+   public void looseLife(Button answear) {
+       if (answear != null ){
+           makeWrongAnim(answear);
+       }
+       if (lifes > 0) {
             lifes -= 1;
-            reloadGame();
-        } else {
-            endGame();
-        }
-    }
+            if (lifes == 2) {
+                heart3.setVisibility(View.INVISIBLE);
+//                heart3.setImageResource(R.drawable.heartblack);
+            }
+            if (lifes == 1) {
+                heart2.setVisibility(View.INVISIBLE);
+//                heart3.setImageResource(R.drawable.heartblack);
 
+            }
+            if (lifes == 0) {
+                heart1.setVisibility(View.INVISIBLE);
+//                heart3.setImageResource(R.drawable.heartblack);
+            }
+           Handler handler = new Handler();
+           handler.postDelayed(new Runnable() {
+               @Override
+               public void run() {
+                   reloadGame();
+               }
+           }, 1600);
+//            reloadGame();
+       } else {
+           endGame();
+       }
+    }
 
     public void endGame() {
         countDownTimer.cancel();
@@ -237,20 +303,21 @@ public class GameActivity extends AppCompatActivity {
 
         //TODO what should happen if game ends
         makeAlertDialog();
+//        Intent intent = new Intent(getApplicationContext(), GameOverActivity.class);
+//        intent.putExtra("score", points);
+//        startActivity(intent);
     }
 
     public void makeWrongAnim(Button answear) {
-        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.wrong_answear_style));
-        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.button_play_style));
-        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.wrong_answear_style));
-        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.button_play_style));
+        answear.setBackgroundResource(R.drawable.wrong_answear_transition);
+        rocketAnimation = (AnimationDrawable) answear.getBackground();
+        rocketAnimation.start();
     }
 
     public void makeCorrectAnim(Button answear) {
-        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.correct_answear_style));
-        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.button_play_style));
-        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.correct_answear_style));
-        answear.setBackgroundDrawable(ContextCompat.getDrawable(GameActivity.this, R.drawable.button_play_style));
+        answear.setBackgroundResource(R.drawable.correct_answear_anim);
+        rocketAnimation = (AnimationDrawable) answear.getBackground();
+        rocketAnimation.start();
     }
 
     public void makeAlertDialog() {
@@ -276,6 +343,14 @@ public class GameActivity extends AppCompatActivity {
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        countDownTimer.cancel();
+        Intent intent = new Intent(GameActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
