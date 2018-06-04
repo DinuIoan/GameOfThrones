@@ -6,6 +6,7 @@ import android.content.res.Resources;
 
 import com.got.bestapps.gameofthrones.MainActivity;
 import com.got.bestapps.gameofthrones.R;
+import com.got.bestapps.gameofthrones.model.AppInfo;
 import com.got.bestapps.gameofthrones.model.Game;
 import com.got.bestapps.gameofthrones.model.PlayerState;
 import com.got.bestapps.gameofthrones.model.Question;
@@ -56,7 +57,11 @@ public class InitializeDatabase {
         File inputQuestions = new File(FILEPATH);
         final Resources resources = context.getResources();
         InputStream inputStream = resources.openRawResource(R.raw.input);
+        AppInfo appInfo = new AppInfo(0L, System.currentTimeMillis());
         PlayerState playerState = new PlayerState(0, "player1");
+        if (databaseHandler.getAppInfo() == null) {
+            databaseHandler.addAppInfo(appInfo);
+        }
         if (databaseHandler.getAllPlayerState().size() == 0) {
             databaseHandler.addPlayerState(playerState);
         }
@@ -74,7 +79,7 @@ public class InitializeDatabase {
                 e.printStackTrace();
             }
         }
-        Game game = new Game(0, 5, playerState.getId());
+        Game game = new Game(0, 7, playerState.getId());
         if (databaseHandler.getAllGames().size() == 0) {
             databaseHandler.addGame(game);
         }

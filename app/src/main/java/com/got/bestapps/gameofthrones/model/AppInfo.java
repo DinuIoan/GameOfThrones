@@ -2,15 +2,13 @@ package com.got.bestapps.gameofthrones.model;
 
 public class AppInfo {
     private Long id;
-    private long timeStarted;
-    private long timeEnded;
-    private int firstOpen;
+    private long lastTimePlayed;
 
-    public AppInfo(Long id, long timeStarted, long timeEnded, int firstOpen) {
+
+    public AppInfo(Long id, long lastTimePlayed) {
         this.id = id;
-        this.timeStarted = timeStarted;
-        this.timeEnded = timeEnded;
-        this.firstOpen = firstOpen;
+        this.lastTimePlayed = lastTimePlayed;
+
     }
 
     public Long getId() {
@@ -21,27 +19,12 @@ public class AppInfo {
         this.id = id;
     }
 
-    public long getTimeStarted() {
-        return timeStarted;
+
+    public long getLastTimePlayed() {
+        return lastTimePlayed;
     }
 
-    public void setTimeStarted(long timeStarted) {
-        this.timeStarted = timeStarted;
-    }
-
-    public long getTimeEnded() {
-        return timeEnded;
-    }
-
-    public void setTimeEnded(long timeEnded) {
-        this.timeEnded = timeEnded;
-    }
-
-    public int getFirstOpen() {
-        return firstOpen;
-    }
-
-    public void setFirstOpen(int firstOpen) {
-        this.firstOpen = firstOpen;
+    public void setLastTimePlayed(long lastTimePlayed) {
+        this.lastTimePlayed = lastTimePlayed;
     }
 }

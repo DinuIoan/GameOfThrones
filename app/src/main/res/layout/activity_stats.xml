@@ -24,7 +24,7 @@
             android:layout_width="250dp"
             android:layout_height="5dp"
             android:layout_below="@+id/back_button"
-            android:background="@color/up_color_v1" />
+            android:background="@drawable/line_format_style" />
 
         <Button
             android:id="@+id/back_button"
@@ -61,11 +61,23 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="470dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/action_bar_relative_layout"
         android:layout_alignBottom="@+id/action_bar_relative_layout"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="8dp" >
-
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/rankings_not_found_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/action_bar_relative_layout"
+        android:textSize="30sp"
+        android:text="@string/rankingsNotFound"
+        android:textColor="@color/up_color_v1"
+        android:padding="8dp"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        />
 </RelativeLayout>

@@ -53,6 +53,8 @@ public class GameActivity extends AppCompatActivity {
     private ImageView heart3;
     private TextView question;
     private TextView timer;
+    private TextView pointsTextView;
+
     private List<Question> questions;
     private List<Question> questionsAnsweared;
     private Timer t;
@@ -99,6 +101,12 @@ public class GameActivity extends AppCompatActivity {
         heart1 = (ImageView) findViewById(R.id.heart1);
         heart2 = (ImageView) findViewById(R.id.heart2);
         heart3 = (ImageView) findViewById(R.id.heart3);
+        pointsTextView = (TextView) findViewById(R.id.score_text_view);
+        pointsTextView.setText("0p");
+
+        DatabaseData.getGame().setGames_number(DatabaseData.getGame().getGames_number() - 1);
+        databaseHandler.modifyGameObject( DatabaseData.getGame().getGames_number(), DatabaseData.getGame().getPlayer_state_id());
+
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +183,7 @@ public class GameActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (answear1.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
+                        pointsTextView.setText("" + points);
                         makeCorrectAnim(answear1);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -195,6 +204,7 @@ public class GameActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (answear2.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
+                        pointsTextView.setText("" + points);
                         makeCorrectAnim(answear2);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -215,6 +225,7 @@ public class GameActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (answear3.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
+                        pointsTextView.setText("" + points);
                         makeCorrectAnim(answear3);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -235,6 +246,7 @@ public class GameActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (answear4.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
+                        pointsTextView.setText("" + points);
                         makeCorrectAnim(answear4);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -289,10 +301,6 @@ public class GameActivity extends AppCompatActivity {
 
     public void endGame() {
         countDownTimer.cancel();
-        //TODO NUMARUL DE JOCURI DISPONIBILE
-        //Update lives in database and DatabaseData;
-        DatabaseData.getGame().setGames_number(DatabaseData.getGame().getGames_number() - 1);
-        databaseHandler.modifyGameObject(DatabaseData.getGame().getId(), DatabaseData.getGame().getGames_number(), DatabaseData.getGame().getPlayer_state_id());
 
         //Update rankings with new score in database and databaseData
         Rankings ranking = new Rankings(0, points, 0);
@@ -327,22 +335,46 @@ public class GameActivity extends AppCompatActivity {
         } else {
             builder = new AlertDialog.Builder(GameActivity.this);
         }
-        builder.setTitle("Game over")
-                .setMessage("Great! You scored: " + points + ".\nDo you want to try to do better?")
-                .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent countdownActivityIntent = new Intent(GameActivity.this, CountdownActivity.class);
-                        startActivity(countdownActivityIntent);
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                       Intent mainActivityIntent = new Intent(GameActivity.this, MainActivity.class);
-                       startActivity(mainActivityIntent);
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+
+        if (DatabaseData.getGame().getGames_number() > 0) {
+            builder.setTitle("Game over")
+                    .setMessage("Great! You scored: " + points + ".\nDon't give up. Do you want to try to do better?")
+                    .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent countdownActivityIntent = new Intent(GameActivity.this, CountdownActivity.class);
+                            startActivity(countdownActivityIntent);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent mainActivityIntent = new Intent(GameActivity.this, MainActivity.class);
+                            startActivity(mainActivityIntent);
+                            finish();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        } else {
+            builder.setTitle("Game over")
+                    .setMessage("Great! You scored: " + points + ".\nBuy more games or wait about 1 hour to recharge games.")
+                    .setPositiveButton(R.string.buyGames, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent mainActivityIntent = new Intent(GameActivity.this, MainActivity.class);
+                            startActivity(mainActivityIntent);
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(R.string.goToMenu, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent mainActivityIntent = new Intent(GameActivity.this, MainActivity.class);
+                            startActivity(mainActivityIntent);
+                            finish();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
     }
 
     @Override

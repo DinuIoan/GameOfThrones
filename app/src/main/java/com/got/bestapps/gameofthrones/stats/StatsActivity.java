@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.got.bestapps.gameofthrones.MainActivity;
 import com.got.bestapps.gameofthrones.R;
@@ -18,18 +20,28 @@ public class StatsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private TextView rankingsNotFoundTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
+        rankingsNotFoundTextView = (TextView) findViewById(R.id.rankings_not_found_text_view);
+        rankingsNotFoundTextView.setVisibility(View.INVISIBLE);
         rankingsList = DatabaseData.getRankings();
-        mLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerViewAdapter = new RecyclerViewAdapter(rankingsList);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        if (rankingsList.size() == 0) {
+            recyclerView.setVisibility(View.INVISIBLE);
+            rankingsNotFoundTextView.setVisibility(View.VISIBLE);
+        } else {
+            rankingsNotFoundTextView.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+
+            mLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerViewAdapter = new RecyclerViewAdapter(rankingsList);
+            recyclerView.setAdapter(recyclerViewAdapter);
+        }
     }
 
     @Override

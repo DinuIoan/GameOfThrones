@@ -1,5 +1,6 @@
 package com.got.bestapps.gameofthrones.database;
 
+import com.got.bestapps.gameofthrones.model.AppInfo;
 import com.got.bestapps.gameofthrones.model.Game;
 import com.got.bestapps.gameofthrones.model.PlayerState;
 import com.got.bestapps.gameofthrones.model.Question;
@@ -12,6 +13,7 @@ public class DatabaseData {
     private static Game game;
     private static List<Question> questions;
     private static List<Rankings> rankings;
+    private static AppInfo appInfo;
 
     public static PlayerState getPlayerState() {
         return playerState;
@@ -43,5 +45,13 @@ public class DatabaseData {
 
     public static void setRankings(List<Rankings> rankings) {
         DatabaseData.rankings = rankings;
+    }
+
+    public static AppInfo getAppInfo() {
+        return appInfo;
+    }
+
+    public static void setAppInfo(AppInfo appInfo) {
+        DatabaseData.appInfo = appInfo;
     }
 }

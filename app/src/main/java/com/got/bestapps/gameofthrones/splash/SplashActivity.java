@@ -54,6 +54,9 @@ public class SplashActivity extends AppCompatActivity {
                 if (DatabaseData.getRankings() == null) {
                     DatabaseData.setRankings(db.getAllRankings());
                 }
+                if (DatabaseData.getAppInfo() == null ) {
+                    DatabaseData.setAppInfo(db.getAppInfo());
+                }
                 return 1234;
             }
 

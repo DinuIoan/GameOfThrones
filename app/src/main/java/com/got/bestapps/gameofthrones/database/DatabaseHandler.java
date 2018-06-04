@@ -47,9 +47,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String APP_INFO_TABLE = "AppInfo";
     private static final String APP_INFO_ID = "id";
-    private static final String STARTED_TIME = "startedTime";
-    private static final String ENDED_TIME = "endedTime";
-    private static final String FIRST_OPEN = "firstOpen";
+    private static final String STARTED_TIME = "lastPlayedTime";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -93,9 +91,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_APPINFO_TABLE = "create table " + APP_INFO_TABLE +
                 " ( "
                     + APP_INFO_ID + " integer primary key, "
-                    + STARTED_TIME + " integer, "
-                    + ENDED_TIME + " integer, "
-                    + FIRST_OPEN + " integer " +
+                    + STARTED_TIME + " integer " +
                 " ) ";
 
         db.execSQL(CREATE_PLAYER_STATE_TABLE);
@@ -127,7 +123,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addGame(Game game) {
         SQLiteDatabase database = getWritableDatabase();
         String ADD_GAME = "insert into " + GAMES_TABLE +
-                " values(null, '"
+                " values(0, '"
                     + game.getGames_number() + "', '"
                     + game.getPlayer_state_id() +
                 "')";
@@ -167,9 +163,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         String ADD_APPINFO = "insert into " + APP_INFO_TABLE +
                 " values(0, '"
-                    + appInfo.getTimeStarted() + "', '"
-                    + appInfo.getTimeEnded() + "', '"
-                    + appInfo.getFirstOpen() +
+                    + appInfo.getLastTimePlayed() +
                 "')";
         database.execSQL(ADD_APPINFO);
         database.close();
@@ -218,13 +212,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         database.close();
     }
 
-    public void modifyGameObject(int id, int games_number, int player_state_id_fk) {
+    public synchronized void modifyGameObject(int games_number, int player_state_id_fk) {
         SQLiteDatabase database = getWritableDatabase();
         String UPDATE_GAME_OBJECT = "update " + GAMES_TABLE +
                 " set "
                     + GAMES + " = '" + games_number + "', "
                     + PLAYER_STATE_ID_FK + " = '" + player_state_id_fk + "' "
-                    + " where " + GAMES_ID_KEY + " = " + id;
+                    + " where " + GAMES_ID_KEY + " = " + 0;
         database.execSQL(UPDATE_GAME_OBJECT);
         database.close();
     }
@@ -274,7 +268,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return playerStateList;
     }
 
-    public List<Game> getAllGames() {
+    public synchronized List<Game> getAllGames() {
         SQLiteDatabase database = getReadableDatabase();
         String SELECT_ALL_GAMES = "select * from " + GAMES_TABLE;
         Cursor cursor = database.rawQuery(SELECT_ALL_GAMES, null);
@@ -329,7 +323,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery(SELECT_APPINFO, null);
         AppInfo appInfo = null;
         if (cursor.moveToFirst()) {
-            appInfo = new AppInfo(cursor.getLong(0), cursor.getLong(1), cursor.getLong(2), cursor.getInt(3));
+            appInfo = new AppInfo(cursor.getLong(0), cursor.getLong(1));
         }
         cursor.close();
         database.close();
@@ -351,7 +345,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return playerState;
     }
 
-    public Game getGameById(int id) {
+    public synchronized Game getGameById(int id) {
         SQLiteDatabase database = getReadableDatabase();
         String SELECT_GAME_BY_ID = "select * from " + GAMES_TABLE +
                 " where " + GAMES_ID_KEY + " = " + id;
