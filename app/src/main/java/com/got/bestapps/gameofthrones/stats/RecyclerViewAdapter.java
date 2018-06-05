@@ -38,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(RecyclerViewAdapter.ViewHolder holder, int position) {
-        holder.mTextView.setText(rankingsList.get(position).getPoints());
+        holder.mTextView.setText("" + rankingsList.get(position).getPoints());
     }
 
     @Override
