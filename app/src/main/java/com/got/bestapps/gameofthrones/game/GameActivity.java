@@ -191,7 +191,7 @@ public class GameActivity extends AppCompatActivity {
                             public void run() {
                                 reloadGame();
                             }
-                        }, 1600);
+                        }, 1800);
 //                        reloadGame();
                     } else {
                         looseLife(answear1);
@@ -212,7 +212,7 @@ public class GameActivity extends AppCompatActivity {
                             public void run() {
                                 reloadGame();
                             }
-                        }, 1600);
+                        }, 1800);
 //                        reloadGame();
                     } else {
                         looseLife(answear2);
@@ -233,7 +233,7 @@ public class GameActivity extends AppCompatActivity {
                             public void run() {
                                 reloadGame();
                             }
-                        }, 1600);
+                        }, 1800);
 //                        reloadGame();
                     } else {
                         looseLife(answear3);
@@ -254,7 +254,7 @@ public class GameActivity extends AppCompatActivity {
                             public void run() {
                                 reloadGame();
                             }
-                        }, 1600);
+                        }, 1800);
 //                        reloadGame();
                     } else {
                         looseLife(answear4);
@@ -268,6 +268,7 @@ public class GameActivity extends AppCompatActivity {
 
 
    public void looseLife(Button answear) {
+       Handler handler = new Handler();
        if (answear != null ){
            makeWrongAnim(answear);
        }
@@ -286,7 +287,6 @@ public class GameActivity extends AppCompatActivity {
                 heart1.setVisibility(View.INVISIBLE);
 //                heart3.setImageResource(R.drawable.heartblack);
             }
-           Handler handler = new Handler();
            handler.postDelayed(new Runnable() {
                @Override
                public void run() {
@@ -300,6 +300,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void endGame() {
+        Handler handler = new Handler();
         countDownTimer.cancel();
 
         //Update rankings with new score in database and databaseData
@@ -310,7 +311,13 @@ public class GameActivity extends AppCompatActivity {
         DatabaseData.setRankings(databaseHandler.getAllRankings());
 
         //TODO what should happen if game ends
-        makeAlertDialog();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                makeAlertDialog();
+            }
+        }, 1600);
+
 //        Intent intent = new Intent(getApplicationContext(), GameOverActivity.class);
 //        intent.putExtra("score", points);
 //        startActivity(intent);
