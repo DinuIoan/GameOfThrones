@@ -41,13 +41,13 @@
 
         <Button
             android:id="@+id/back_button2"
-            android:layout_width="67dp"
-            android:layout_height="52dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignEnd="@+id/back_button"
             android:layout_centerVertical="true"
-            android:background="@android:color/transparent"
+            android:background="@drawable/arrow_left_thick"
             android:textColor="@color/up_color_v1"
-            android:textSize="24sp"
-            tools:text="Back" />
+            android:textSize="24sp" />
 
         <ImageView
             android:id="@+id/logoImageView"
@@ -57,27 +57,38 @@
             android:padding="0dp"
             app:srcCompat="@drawable/logoimageview" />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/rankings_title_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/up_color_v1"
+        android:gravity="center"
+        android:text="RANKINGS"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/action_bar_relative_layout"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/action_bar_relative_layout"
-        android:layout_alignBottom="@+id/action_bar_relative_layout"
+        android:layout_below="@+id/rankings_title_text_view"
+        android:layout_alignBottom="@+id/rankings_title_text_view"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="8dp" >
     </android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/rankings_not_found_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/action_bar_relative_layout"
-        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rankings_title_text_view"
+        android:layout_centerInParent="true"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
         android:text="@string/rankingsNotFound"
         android:textColor="@color/up_color_v1"
-        android:padding="8dp"
-        android:layout_centerInParent="true"
-        android:textStyle="bold"
-        />
+        android:textSize="20sp"
+        android:textStyle="bold|italic" />
 </RelativeLayout>

@@ -32,9 +32,9 @@
             android:layout_height="52dp"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:clickable="false"
             android:textColor="@color/up_color_v1"
-            android:textSize="24sp"
-            android:clickable="false"/>
+            android:textSize="24sp" />
 
         <ImageView
             android:id="@+id/logoImageView"
@@ -51,6 +51,7 @@
         android:layout_height="84dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_play_style"
+        android:translationZ="35dp"
         android:text="Play"
         android:textColor="@color/up_color"
         android:textSize="25sp"
@@ -70,6 +71,7 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/button_play_style"
         android:text="Stats"
+        android:translationZ="35dp"
         android:textColor="@color/up_color"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -86,6 +88,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/button_play_style"
         android:text="RULES"
+        android:translationZ="35dp"
         android:textColor="@color/up_color"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -102,16 +105,16 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="458dp"
         android:layout_marginEnd="2dp"
-        android:layout_marginLeft="324dp"
-        android:layout_marginRight="2dp"
-        android:layout_marginStart="324dp"
-        android:text="5"
-        android:textColor="@color/up_color_v1"
+        android:elevation="30dp"
+        android:text="7"
+        android:textColor="@color/up_color"
         android:textSize="35sp"
-        android:textStyle="bold"
+        android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.961"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar_relative_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/action_bar_relative_layout"
+        app:layout_constraintVertical_bias="0.571" />
 
 </android.support.constraint.ConstraintLayout>

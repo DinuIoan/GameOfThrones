@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true" >
         <shape android:shape="rectangle"  >
             <corners android:radius="20dip" />
             <!--<stroke android:width="5dip" android:color="@color/outline_color" />-->
-            <gradient android:type="radial" android:gradientRadius="35dp"
-            android:startColor="@color/down_color_v1" android:endColor="@color/up_color_v1"/>
+            <gradient android:angle="-90" android:startColor="@color/pressed_up_color" android:endColor="@color/pressed_down_color"  />
         </shape>
     </item>
     <item android:state_focused="true">
@@ -20,7 +19,7 @@
             <corners android:radius="20dip" />
             <!--<stroke android:width="5dip" android:color="@color/outline_color" />-->
             <!--<gradient android:angle="-90" android:startColor="@color/up_color_v1" android:endColor="@color/down_color_v1" />-->
-            <gradient android:type="radial" android:gradientRadius="70dp"
+            <gradient android:type="radial" android:gradientRadius="200dp"
                 android:startColor="@color/up_color_v1" android:endColor="@color/down_color_v1"/>
         </shape>
 

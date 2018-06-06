@@ -110,6 +110,7 @@ public class GameActivity extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO dialog questioning if you are sure you want to exit
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
@@ -386,6 +387,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        //TODO dialog questioning if you are sure you want to exit
         countDownTimer.cancel();
         Intent intent = new Intent(GameActivity.this, MainActivity.class);
         startActivity(intent);
