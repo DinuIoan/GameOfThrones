@@ -343,7 +343,6 @@ public class GameActivity extends AppCompatActivity {
         } else {
             builder = new AlertDialog.Builder(GameActivity.this);
         }
-
         if (DatabaseData.getGame().getGames_number() > 0) {
             builder.setTitle("Game over")
                     .setMessage("Great! You scored: " + points + ".\nDon't give up. Do you want to try to do better?")
@@ -361,8 +360,7 @@ public class GameActivity extends AppCompatActivity {
                             finish();
                         }
                     })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+                    .setIcon(android.R.drawable.ic_dialog_alert);
         } else {
             builder.setTitle("Game over")
                     .setMessage("Great! You scored: " + points + ".\nBuy more games or wait about 1 hour to recharge games.")
@@ -380,9 +378,10 @@ public class GameActivity extends AppCompatActivity {
                             finish();
                         }
                     })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+                    .setIcon(android.R.drawable.ic_dialog_alert);
         }
+        AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
     }
 
     @Override
