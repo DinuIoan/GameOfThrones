@@ -382,6 +382,7 @@ public class GameActivity extends AppCompatActivity {
         }
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        alertDialog.show();
     }
 
     @Override
