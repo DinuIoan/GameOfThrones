@@ -23,6 +23,20 @@
         <activity android:name=".rules.RulesActivity" />
         <activity android:name=".game.CountdownActivity" />
 
+        <service
+            android:name="com.got.bestapps.gameofthrones.services.IncrementLifesService"
+            android:enabled="true" >
+        </service>
+
+        <receiver
+            android:name="com.got.bestapps.gameofthrones.services.IncrementLifesBroadcastReciver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+            <intent-filter>
+                <action android:name="com.got.bestapps.gameofthrones.services.IncrementLifesService"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

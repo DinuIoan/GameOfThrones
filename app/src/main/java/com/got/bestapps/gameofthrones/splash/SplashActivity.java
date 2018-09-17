@@ -12,64 +12,75 @@ import com.got.bestapps.gameofthrones.R;
 import com.got.bestapps.gameofthrones.database.DatabaseData;
 import com.got.bestapps.gameofthrones.database.DatabaseHandler;
 import com.got.bestapps.gameofthrones.database.InitializeDatabase;
+import com.got.bestapps.gameofthrones.model.Game;
+import com.got.bestapps.gameofthrones.services.IncrementLifesService;
+
+import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
-        private DatabaseHandler db;
-        @Override
-        public void onCreate(Bundle savedInstanceState){
-            super.onCreate(savedInstanceState);
-            // set the content view for your splash screen you defined in an xml file
-            setContentView(R.layout.activity_splash);
-            // perform other stuff you need to do
+    private DatabaseHandler db;
+    private IncrementLifesService incrementLifesService;
 
-            // execute your xml news feed loader
-            new AsyncLoadXMLFeed().execute();
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        // set the content view for your splash screen you defined in an xml file
+        setContentView(R.layout.activity_splash);
+        // perform other stuff you need to do
+        incrementLifesService
+                = new IncrementLifesService(getApplicationContext());
+        // execute your xml news feed loader
+        Handler handler = new Handler();
+        doInBackground();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                onPostExecute();
+            }
+        }, 2000);
 
+    }
+
+    private void doInBackground(){
+        // load your xml feed asynchronously
+        db = new DatabaseHandler(SplashActivity.this);
+        if (db.getAllQuestions().size() < 1 ) {
+            InitializeDatabase.initializeDatabase(db, SplashActivity.this);
         }
 
-        private class AsyncLoadXMLFeed extends AsyncTask<String, Integer, Integer> {
-            @Override
-            protected void onPreExecute(){
-                // show your progress dialog
-
+        if (DatabaseData.getQuestions() == null) {
+            DatabaseData.setQuestions(db.getAllQuestions());
+        }
+        if (DatabaseData.getGame() == null) {
+            DatabaseData.setGame(db.getAllGames().get(0));
+        }
+        if (DatabaseData.getPlayerState() == null) {
+            DatabaseData.setPlayerState(db.getAllPlayerState().get(0));
+        }
+        if (DatabaseData.getRankings() == null) {
+            DatabaseData.setRankings(db.getAllRankings());
+        }
+        if (DatabaseData.getAppInfo() == null ) {
+            DatabaseData.setAppInfo(db.getAppInfo());
+        }
+        if (incrementLifesService.getLifes() != 0 ) {
+            List<Game> gameList = db.getAllGames();
+            if (gameList != null && gameList.size() != 0) {
+                int lifesUpdate =
+                        incrementLifesService.getLifes() +
+                                gameList.get(0).getGames_number();
+                db.modifyGameObject(lifesUpdate, 0);
             }
-
-            @Override
-            protected Integer doInBackground(String... voids){
-                // load your xml feed asynchronously
-                db = new DatabaseHandler(SplashActivity.this);
-                if (db.getAllQuestions().size() < 1 ) {
-                    InitializeDatabase.initializeDatabase(db, SplashActivity.this);
-                }
-
-                if (DatabaseData.getQuestions() == null) {
-                    DatabaseData.setQuestions(db.getAllQuestions());
-                }
-                if (DatabaseData.getGame() == null) {
-                    DatabaseData.setGame(db.getAllGames().get(0));
-                }
-                if (DatabaseData.getPlayerState() == null) {
-                    DatabaseData.setPlayerState(db.getAllPlayerState().get(0));
-                }
-                if (DatabaseData.getRankings() == null) {
-                    DatabaseData.setRankings(db.getAllRankings());
-                }
-                if (DatabaseData.getAppInfo() == null ) {
-                    DatabaseData.setAppInfo(db.getAppInfo());
-                }
-                return 1234;
-            }
-
-            @Override
-            protected void onPostExecute(Integer params){
-                // dismiss your dialog
-                // launch your News activity
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-
-                // close this activity
-                finish();
-            }
-
         }
     }
+
+    private void onPostExecute(){
+        // dismiss your dialog
+        // launch your News activity
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        startActivity(intent);
+
+        // close this activity
+        finish();
+    }
+}

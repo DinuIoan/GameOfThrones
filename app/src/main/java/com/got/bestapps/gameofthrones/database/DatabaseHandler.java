@@ -214,11 +214,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public synchronized void modifyGameObject(int games_number, int player_state_id_fk) {
         SQLiteDatabase database = getWritableDatabase();
-        String UPDATE_GAME_OBJECT = "update " + GAMES_TABLE +
+        String UPDATE_GAME_OBJECT = "";
+        if (games_number > 7) {
+        UPDATE_GAME_OBJECT = "update " + GAMES_TABLE +
                 " set "
+                    + GAMES + " = '" + 7 + "', "
+                    + PLAYER_STATE_ID_FK + " = '" + player_state_id_fk + "' "
+                    + " where " + GAMES_ID_KEY + " = " + 0;
+        } else {
+            UPDATE_GAME_OBJECT = "update " + GAMES_TABLE +
+                    " set "
                     + GAMES + " = '" + games_number + "', "
                     + PLAYER_STATE_ID_FK + " = '" + player_state_id_fk + "' "
                     + " where " + GAMES_ID_KEY + " = " + 0;
+        }
         database.execSQL(UPDATE_GAME_OBJECT);
         database.close();
     }
