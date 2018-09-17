@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.got.bestapps.gameofthrones.MainActivity;
@@ -21,6 +22,7 @@ public class StatsActivity extends AppCompatActivity {
     private RecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private TextView rankingsNotFoundTextView;
+    private Button backButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +30,41 @@ public class StatsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stats);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         rankingsNotFoundTextView = (TextView) findViewById(R.id.rankings_not_found_text_view);
-        rankingsNotFoundTextView.setVisibility(View.INVISIBLE);
+        backButton2 = findViewById(R.id.back_button2);
+
+//        rankingsNotFoundTextView.setVisibility(View.INVISIBLE);
+        rankingsNotFoundTextView.setTextSize(40);
         rankingsList = DatabaseData.getRankings();
         if (rankingsList.size() == 0) {
             recyclerView.setVisibility(View.INVISIBLE);
             rankingsNotFoundTextView.setVisibility(View.VISIBLE);
         } else {
-            rankingsNotFoundTextView.setVisibility(View.INVISIBLE);
-            recyclerView.setVisibility(View.VISIBLE);
+            int maxPoints = 0;
+            for (Rankings ranking: rankingsList) {
+                if (ranking.getPoints() > maxPoints) {
+                    maxPoints = ranking.getPoints();
+                }
+            }
+//            rankingsNotFoundTextView.setVisibility(View.INVISIBLE);
+            rankingsNotFoundTextView.setText("Your best score is: \n" + maxPoints + " points");
+            //recyclerView.setVisibility(View.VISIBLE);
 
-            mLayoutManager = new LinearLayoutManager(this);
-            recyclerView.setLayoutManager(mLayoutManager);
-            recyclerViewAdapter = new RecyclerViewAdapter(rankingsList);
-            recyclerView.setAdapter(recyclerViewAdapter);
+
+
+//            mLayoutManager = new LinearLayoutManager(this);
+//            recyclerView.setLayoutManager(mLayoutManager);
+//            recyclerViewAdapter = new RecyclerViewAdapter(rankingsList);
+//            recyclerView.setAdapter(recyclerViewAdapter);
         }
+        backButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StatsActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     @Override

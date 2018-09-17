@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseHandler databaseHandler;
 
-    private TimeAsyncTask timeAsyncTask;
+   // private TimeAsyncTask timeAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
         gamesNumberTextView.setText("" + gamesAvailableNumber);
         //Start updating games
-        timeAsyncTask = new TimeAsyncTask(DatabaseData.getAppInfo().getLastTimePlayed());
-        timeAsyncTask.execute();
+        //timeAsyncTask = new TimeAsyncTask(DatabaseData.getAppInfo().getLastTimePlayed());
+        //timeAsyncTask.execute();
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         gamesAvailableNumber = DatabaseData.getGame().getGames_number();
         gamesNumberTextView.setText("" + gamesAvailableNumber);
-        timeAsyncTask = new TimeAsyncTask(DatabaseData.getAppInfo().getLastTimePlayed());
-        timeAsyncTask.execute();
+        //timeAsyncTask = new TimeAsyncTask(DatabaseData.getAppInfo().getLastTimePlayed());
+        //timeAsyncTask.execute();
     }
 
     @Override
@@ -133,64 +133,61 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         gamesAvailableNumber = DatabaseData.getGame().getGames_number();
         gamesNumberTextView.setText("" + gamesAvailableNumber);
-        timeAsyncTask = new TimeAsyncTask(DatabaseData.getAppInfo().getLastTimePlayed());
-        timeAsyncTask.execute();
+        //timeAsyncTask = new TimeAsyncTask(DatabaseData.getAppInfo().getLastTimePlayed());
+        //timeAsyncTask.execute();
 
     }
 
     private void makeTimeUpdate() {
-        timeAsyncTask.cancel(true);
+        //timeAsyncTask.cancel(true);
         AppInfo appInfo = new AppInfo(0L, (System.currentTimeMillis() - DatabaseData.getAppInfo().getLastTimePlayed()) + System.currentTimeMillis() );
-        databaseHandler.addAppInfo(appInfo);
+        databaseHandler.updateAppInfo(0, 0);
     }
 
-    public class TimeAsyncTask extends AsyncTask<Integer, Integer, Integer> {
-        private Date lastTimePlayed;
-
-
-        public TimeAsyncTask(long lastTimePlayed) {
-            this.lastTimePlayed = new Date(lastTimePlayed);
-        }
-
-        @Override
-        protected Integer doInBackground(Integer... integers) {
-            while (checkTime) {
-                if (databaseHandler.getAllGames().get(0).getGames_number() != 7 ) {
-                    Date currentDate = new Date(System.currentTimeMillis());
-                    long goneTime = (currentDate.getTime() - lastTimePlayed.getTime()) / 1000;
-                    if (goneTime > 3600) {
-                        long timeRemaining = goneTime / 3600;
-                        int lifesEarned = 0;
-                        int numberOfGamesFromDB = DatabaseData.getGame().getGames_number();
-
-                        if (goneTime / 3600 > 7)
-                            lifesEarned = 7;
-                        else
-                            lifesEarned = (int) goneTime / 3600;
-
-                        if (numberOfGamesFromDB + lifesEarned > 7) {
-                            databaseHandler.modifyGameObject(7, 0);
-                        } else {
-                            databaseHandler.modifyGameObject(numberOfGamesFromDB + lifesEarned, 0);
-                        }
-                        DatabaseData.setGame(databaseHandler.getGameById(0));
-                        gamesNumberTextView.setText("" + DatabaseData.getGame().getGames_number());
-                        AppInfo appInfo = new AppInfo(0L, System.currentTimeMillis() + timeRemaining);
-                        databaseHandler.addAppInfo(appInfo);
-                        DatabaseData.setAppInfo(appInfo);
-                    }
-                }
-                try {
-                    Thread.sleep(6000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-    }
-
-
-
+//    public class TimeAsyncTask extends AsyncTask<Integer, Integer, Integer> {
+//        private Date lastTimePlayed;
+//
+//
+//        public TimeAsyncTask(long lastTimePlayed) {
+//            this.lastTimePlayed = new Date(lastTimePlayed);
+//        }
+//
+//        @Override
+//        protected Integer doInBackground(Integer... integers) {
+//            while (checkTime) {
+//                if (databaseHandler.getAllGames().get(0).getGames_number() != 7 ) {
+//                    Date currentDate = new Date(System.currentTimeMillis());
+//                    long goneTime = (currentDate.getTime() - lastTimePlayed.getTime()) / 1000;
+//                    if (goneTime > 3600) {
+//                        long timeRemaining = goneTime / 3600;
+//                        int lifesEarned = 0;
+//                        int numberOfGamesFromDB = DatabaseData.getGame().getGames_number();
+//
+//                        if (goneTime / 3600 > 7)
+//                            lifesEarned = 7;
+//                        else
+//                            lifesEarned = (int) goneTime / 3600;
+//
+//                        if (numberOfGamesFromDB + lifesEarned > 7) {
+//                            databaseHandler.modifyGameObject(7, 0);
+//                        } else {
+//                            databaseHandler.modifyGameObject(numberOfGamesFromDB + lifesEarned, 0);
+//                        }
+//                        DatabaseData.setGame(databaseHandler.getGameById(0));
+//                        gamesNumberTextView.setText("" + DatabaseData.getGame().getGames_number());
+//                        AppInfo appInfo = new AppInfo(0L, System.currentTimeMillis() + timeRemaining);
+//                        databaseHandler.updateAppInfo(0, 0);
+//                        DatabaseData.setAppInfo(appInfo);
+//                    }
+//                }
+//                try {
+//                    Thread.sleep(6000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            return null;
+//        }
+//
+//    }
 }

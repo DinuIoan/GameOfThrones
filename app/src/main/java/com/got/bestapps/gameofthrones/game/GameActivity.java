@@ -151,6 +151,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void reloadGame() {
+        enableButtons();
         loadQuestion();
         countDownTimer.start();
     }
@@ -182,6 +183,7 @@ public class GameActivity extends AppCompatActivity {
             answear1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    disableButton();
                     if (answear1.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         pointsTextView.setText("" + points);
@@ -203,6 +205,7 @@ public class GameActivity extends AppCompatActivity {
             answear2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    disableButton();
                     if (answear2.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         pointsTextView.setText("" + points);
@@ -224,6 +227,7 @@ public class GameActivity extends AppCompatActivity {
             answear3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    disableButton();
                     if (answear3.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         pointsTextView.setText("" + points);
@@ -245,6 +249,7 @@ public class GameActivity extends AppCompatActivity {
             answear4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    disableButton();
                     if (answear4.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
                         pointsTextView.setText("" + points);
@@ -265,6 +270,20 @@ public class GameActivity extends AppCompatActivity {
         } else {
             //TODO NO MORE QUESTIONS, WHO GET'S HERE IS THE BOSS
         }
+    }
+
+    private void disableButton() {
+        answear1.setClickable(false);
+        answear2.setClickable(false);
+        answear3.setClickable(false);
+        answear4.setClickable(false);
+    }
+
+    private void enableButtons() {
+        answear1.setClickable(true);
+        answear2.setClickable(true);
+        answear3.setClickable(true);
+        answear4.setClickable(true);
     }
 
 
@@ -293,8 +312,7 @@ public class GameActivity extends AppCompatActivity {
                public void run() {
                    reloadGame();
                }
-           }, 1600);
-//            reloadGame();
+           }, 900);
        } else {
            endGame();
        }
@@ -305,11 +323,7 @@ public class GameActivity extends AppCompatActivity {
         countDownTimer.cancel();
 
         //Update rankings with new score in database and databaseData
-        Rankings ranking = new Rankings(0, points, 0);
-        List<Rankings> rankings = DatabaseData.getRankings();
-        rankings.add(ranking);
-        databaseHandler.updateRankings(rankings);
-        DatabaseData.setRankings(databaseHandler.getAllRankings());
+        updateRankingIfNecessary();
 
         //TODO what should happen if game ends
         handler.postDelayed(new Runnable() {
@@ -317,22 +331,39 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
                 makeAlertDialog();
             }
-        }, 1600);
+        }, 900);
 
-//        Intent intent = new Intent(getApplicationContext(), GameOverActivity.class);
-//        intent.putExtra("score", points);
-//        startActivity(intent);
+    }
+
+    private void updateRankingIfNecessary() {
+        int maxPoints = points;
+        List<Rankings> rankings = DatabaseData.getRankings();
+        for (Rankings oldRanking: rankings) {
+            if (oldRanking.getPoints() > points)
+                maxPoints = oldRanking.getPoints();
+        }
+        if (maxPoints == points) {
+            rankings.add(new Rankings(0, points, 0));
+            databaseHandler.updateRankings(rankings);
+            DatabaseData.setRankings(databaseHandler.getAllRankings());
+        }
     }
 
     public void makeWrongAnim(Button answear) {
         answear.setBackgroundResource(R.drawable.wrong_answear_transition);
         rocketAnimation = (AnimationDrawable) answear.getBackground();
+        if (rocketAnimation.isRunning()) {
+            rocketAnimation.stop();
+        }
         rocketAnimation.start();
     }
 
     public void makeCorrectAnim(Button answear) {
         answear.setBackgroundResource(R.drawable.correct_answear_anim);
         rocketAnimation = (AnimationDrawable) answear.getBackground();
+        if (rocketAnimation.isRunning()) {
+            rocketAnimation.stop();
+        }
         rocketAnimation.start();
     }
 
