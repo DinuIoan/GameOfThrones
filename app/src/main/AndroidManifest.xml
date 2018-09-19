@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.got.bestapps.gameofthrones">
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -22,21 +23,6 @@
         <activity android:name=".stats.StatsActivity" />
         <activity android:name=".rules.RulesActivity" />
         <activity android:name=".game.CountdownActivity" />
-
-        <service
-            android:name="com.got.bestapps.gameofthrones.services.IncrementLifesService"
-            android:enabled="true" >
-        </service>
-
-        <receiver
-            android:name="com.got.bestapps.gameofthrones.services.IncrementLifesBroadcastReciver"
-            android:enabled="true"
-            android:exported="true"
-            android:label="RestartServiceWhenStopped">
-            <intent-filter>
-                <action android:name="com.got.bestapps.gameofthrones.services.IncrementLifesService"/>
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>

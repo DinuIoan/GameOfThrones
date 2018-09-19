@@ -57,7 +57,7 @@ public class InitializeDatabase {
         File inputQuestions = new File(FILEPATH);
         final Resources resources = context.getResources();
         InputStream inputStream = resources.openRawResource(R.raw.input);
-        AppInfo appInfo = new AppInfo(0L, System.currentTimeMillis());
+        AppInfo appInfo = new AppInfo(0L, System.currentTimeMillis(), 0);
         PlayerState playerState = new PlayerState(0, "player1");
         if (databaseHandler.getAppInfo() == null) {
             databaseHandler.addAppInfo(appInfo);

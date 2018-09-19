@@ -194,7 +194,7 @@ public class GameActivity extends AppCompatActivity {
                             public void run() {
                                 reloadGame();
                             }
-                        }, 1800);
+                        }, 900);
 //                        reloadGame();
                     } else {
                         looseLife(answear1);
@@ -216,7 +216,7 @@ public class GameActivity extends AppCompatActivity {
                             public void run() {
                                 reloadGame();
                             }
-                        }, 1800);
+                        }, 900);
 //                        reloadGame();
                     } else {
                         looseLife(answear2);
@@ -238,7 +238,7 @@ public class GameActivity extends AppCompatActivity {
                             public void run() {
                                 reloadGame();
                             }
-                        }, 1800);
+                        }, 900);
 //                        reloadGame();
                     } else {
                         looseLife(answear3);
@@ -260,7 +260,7 @@ public class GameActivity extends AppCompatActivity {
                             public void run() {
                                 reloadGame();
                             }
-                        }, 1800);
+                        }, 900);
 //                        reloadGame();
                     } else {
                         looseLife(answear4);

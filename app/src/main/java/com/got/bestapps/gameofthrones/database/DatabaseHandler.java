@@ -47,7 +47,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static final String APP_INFO_TABLE = "AppInfo";
     private static final String APP_INFO_ID = "id";
-    private static final String STARTED_TIME = "lastPlayedTime";
+    private static final String LAST_TIME_PLAYED = "lastPlayedTime";
+    private static final String REMAINING = "remaining";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -91,7 +92,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_APPINFO_TABLE = "create table " + APP_INFO_TABLE +
                 " ( "
                     + APP_INFO_ID + " integer primary key, "
-                    + STARTED_TIME + " integer " +
+                    + LAST_TIME_PLAYED + " integer, "
+                    + REMAINING+ " integer " +
                 " ) ";
 
         db.execSQL(CREATE_PLAYER_STATE_TABLE);
@@ -163,7 +165,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         String ADD_APPINFO = "insert into " + APP_INFO_TABLE +
                 " values(0, '"
-                    + appInfo.getLastTimePlayed() +
+                    + appInfo.getLastTimePlayed() + "', '"
+                    + appInfo.getRemaining() +
                 "')";
         database.execSQL(ADD_APPINFO);
         database.close();
@@ -332,7 +335,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = database.rawQuery(SELECT_APPINFO, null);
         AppInfo appInfo = null;
         if (cursor.moveToFirst()) {
-            appInfo = new AppInfo(cursor.getLong(0), cursor.getLong(1));
+            appInfo = new AppInfo(
+                    cursor.getLong(0),
+                    cursor.getLong(1),
+                    cursor.getInt(2));
         }
         cursor.close();
         database.close();
@@ -414,9 +420,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-    public void updateAppInfo(long startedTime, long endedTime) {
+    public void updateAppInfo(long lastTimePlayed, int remaining) {
         SQLiteDatabase database = getWritableDatabase();
-        //TODO updata app info
+        String UPDATE_APPINFO_OBJECT = "update " + APP_INFO_TABLE +
+                " set "
+                + LAST_TIME_PLAYED + " = '" + lastTimePlayed + "', "
+                + REMAINING + " = '" + remaining + "' "
+                + " where " + APP_INFO_ID + " = " + 0;
+        database.execSQL(UPDATE_APPINFO_OBJECT);
+        database.close();
     }
 
 }
