@@ -13,8 +13,8 @@
     <color  name="correct_down_color">#1B5E20</color>
 
     <!--Var2 of simple button color(not pressed)-->
-    <color name="up_color_v1">#9E9E9E</color>
-    <color  name="down_color_v1">#424242</color>
+    <color name="up_color_v1">#E0E0E0</color>
+    <color  name="down_color_v1">#9E9E9E</color>
     <!--Button pressed-->
     <color name="pressed_up_color">#212121</color>
     <color name="pressed_down_color">#616161</color>
@@ -26,4 +26,5 @@
     <color  name="down_color">#616161</color>
     <color name="outline_color">#212121</color>
     <color name="up_color">#FAFAFA</color>
+    <color name="textColorMainMenu">#424242</color>
 </resources>

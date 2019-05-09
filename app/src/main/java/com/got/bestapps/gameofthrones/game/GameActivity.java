@@ -162,6 +162,7 @@ public class GameActivity extends AppCompatActivity {
 
     public void loadQuestion() {
         if (questions.size() != 0) {
+            initializeAnswears();
             Random random = new Random();
             int maximum = questions.size();
             int randomQuestion = random.nextInt(maximum);
@@ -186,7 +187,7 @@ public class GameActivity extends AppCompatActivity {
                     disableButton();
                     if (answear1.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
-                        pointsTextView.setText("" + points);
+                        pointsTextView.setText("" + points + "p");
                         makeCorrectAnim(answear1);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -208,7 +209,7 @@ public class GameActivity extends AppCompatActivity {
                     disableButton();
                     if (answear2.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
-                        pointsTextView.setText("" + points);
+                        pointsTextView.setText("" + points + "p");
                         makeCorrectAnim(answear2);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -230,7 +231,7 @@ public class GameActivity extends AppCompatActivity {
                     disableButton();
                     if (answear3.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
-                        pointsTextView.setText("" + points);
+                        pointsTextView.setText("" + points + "p");
                         makeCorrectAnim(answear3);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -252,7 +253,7 @@ public class GameActivity extends AppCompatActivity {
                     disableButton();
                     if (answear4.getText().toString().contains(correctAnswear)) {
                         points += rQuestion.getPoints();
-                        pointsTextView.setText("" + points);
+                        pointsTextView.setText("" + points + "p");
                         makeCorrectAnim(answear4);
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
@@ -270,6 +271,13 @@ public class GameActivity extends AppCompatActivity {
         } else {
             //TODO NO MORE QUESTIONS, WHO GET'S HERE IS THE BOSS
         }
+    }
+
+    private void initializeAnswears() {
+        answear1.setBackgroundResource(R.drawable.style_answear_button);
+        answear2.setBackgroundResource(R.drawable.style_answear_button);
+        answear3.setBackgroundResource(R.drawable.style_answear_button);
+        answear4.setBackgroundResource(R.drawable.style_answear_button);
     }
 
     private void disableButton() {
@@ -374,7 +382,7 @@ public class GameActivity extends AppCompatActivity {
         } else {
             builder = new AlertDialog.Builder(GameActivity.this);
         }
-        if (DatabaseData.getGame().getGames_number() > 0) {
+//        if (DatabaseData.getGame().getGames_number() > 0) {
             builder.setTitle("Game over")
                     .setMessage("Great! You scored: " + points + ".\nDon't give up. Do you want to try to do better?")
                     .setPositiveButton(R.string.retry, new DialogInterface.OnClickListener() {
@@ -392,25 +400,25 @@ public class GameActivity extends AppCompatActivity {
                         }
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert);
-        } else {
-            builder.setTitle("Game over")
-                    .setMessage("Great! You scored: " + points + ".\nBuy more games or wait about 1 hour to recharge games.")
-                    .setPositiveButton(R.string.buyGames, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent mainActivityIntent = new Intent(GameActivity.this, MainActivity.class);
-                            startActivity(mainActivityIntent);
-                            finish();
-                        }
-                    })
-                    .setNegativeButton(R.string.goToMenu, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent mainActivityIntent = new Intent(GameActivity.this, MainActivity.class);
-                            startActivity(mainActivityIntent);
-                            finish();
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert);
-        }
+//        } else {
+//            builder.setTitle("Game over")
+//                    .setMessage("Great! You scored: " + points + ".\nBuy more games or wait about 1 hour to recharge games.")
+//                    .setPositiveButton(R.string.buyGames, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            Intent mainActivityIntent = new Intent(GameActivity.this, MainActivity.class);
+//                            startActivity(mainActivityIntent);
+//                            finish();
+//                        }
+//                    })
+//                    .setNegativeButton(R.string.goToMenu, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            Intent mainActivityIntent = new Intent(GameActivity.this, MainActivity.class);
+//                            startActivity(mainActivityIntent);
+//                            finish();
+//                        }
+//                    })
+//                    .setIcon(android.R.drawable.ic_dialog_alert);
+//        }
         AlertDialog alertDialog = builder.create();
         alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         alertDialog.show();

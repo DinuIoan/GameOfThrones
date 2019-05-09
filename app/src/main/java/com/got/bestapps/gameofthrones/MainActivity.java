@@ -46,25 +46,25 @@ public class MainActivity extends AppCompatActivity {
         if (databaseHandler.getAllQuestions().size() < 1 ) {
             InitializeDatabase.initializeDatabase(databaseHandler, getApplicationContext());
         }
-        gamesNumberTextView = (TextView) findViewById(R.id.games_text_view);
+//        gamesNumberTextView = (TextView) findViewById(R.id.games_text_view);
         playButton = (Button) findViewById(R.id.button_play);
         statsButton = (Button) findViewById(R.id.button_stats);
         rulesButton = (Button) findViewById(R.id.button_rules);
 
         gamesAvailableNumber = DatabaseData.getGame().getGames_number();
 
-        gamesNumberTextView.setText("" + gamesAvailableNumber);
+//        gamesNumberTextView.setText("" + gamesAvailableNumber);
 
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (DatabaseData.getGame().getGames_number() == 0) {
-
-                } else {
+//                if (DatabaseData.getGame().getGames_number() == 0) {
+//
+//                } else {
                     checkTime = false;
                     Intent intent = new Intent(getApplicationContext(), CountdownActivity.class);
                     startActivity(intent);
-                }
+//                }
             }
         });
 
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private void reloadeGames() {
         DatabaseData.setGame(databaseHandler.getAllGames().get(0));
         gamesAvailableNumber = DatabaseData.getGame().getGames_number();
-        gamesNumberTextView.setText("" + gamesAvailableNumber);
+//        gamesNumberTextView.setText("" + gamesAvailableNumber);
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         gamesAvailableNumber = DatabaseData.getGame().getGames_number();
-        gamesNumberTextView.setText("" + gamesAvailableNumber);
+//        gamesNumberTextView.setText("" + gamesAvailableNumber);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         gamesAvailableNumber = DatabaseData.getGame().getGames_number();
-        gamesNumberTextView.setText("" + gamesAvailableNumber);
+//        gamesNumberTextView.setText("" + gamesAvailableNumber);
 
     }
 }
